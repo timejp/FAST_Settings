@@ -48,6 +48,9 @@ android {
             versionName "1.0-samsung"
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 //라이브러

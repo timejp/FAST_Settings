@@ -1,0 +1,67 @@
+//모듈의 용도 : application library
+apply plugin: 'com.android.application'
+
+//android app관령 설정
+android {
+    //컴파일러 버전 (class파일 생성)
+    compileSdkVersion 25
+    //빌드(설치를 위한 apk생성) 툴 버전
+    buildToolsVersion "25.0.0"
+    defaultConfig {
+        applicationId "com.timejh.settings" //app의 고유 ID, 앱의 root package명 사용
+        minSdkVersion 15 //지원하는 최하위 api레벨
+        targetSdkVersion 25 //컴파일 하는 api레벨 (빌드의 목표가 되는 버전)
+        versionCode 1 //내부적으로 관리되는 버전(정수)
+        versionName "1.0" //외부적으로 알려지는 앱 버전
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" //테스트 환경
+    }
+
+    signingConfigs { //key로 앱을 사인할때의 옵션
+        release {
+            storeFile file("../keystore/keystore.jks")
+            storePassword "timeDevel23@"
+            keyAlias "settings"
+            keyPassword "timeDevel23@"
+        }
+    }
+
+    buildTypes {
+        release { //배포버전
+            signingConfig signingConfigs.release //key로 앱 사인하기
+            buildConfigField("String", "MYURL", "\"배포용 버전\"");
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug { //개발버전
+            buildConfigField("String", "MYURL", "\"개발용 버전\"");
+        }
+    }
+
+    productFlavors { //유료버전, 무료버전, 각 스토어별로 바뀌는 것들
+        google {
+            versionName "1.0-google"
+        }
+        onestore {
+            versionName "1.0-onestore"
+        }
+        samsung {
+            versionName "1.0-samsung"
+        }
+    }
+}
+
+//라이브러
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //화면 테스트용 라이브러리
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //하위 버전 호환성을 위한 라이브러리
+    compile 'com.android.support:appcompat-v7:25.1.0'
+
+    //소스코드 테스트용 라이브러리
+    testCompile 'junit:junit:4.12'
+}

@@ -1,7 +1,7 @@
 //모듈의 용도 : application library
 apply plugin: 'com.android.application'
 
-//android app관령 설정
+//android app관련 설정
 android {
     //컴파일러 버전 (class파일 생성)
     compileSdkVersion 25
